@@ -1,7 +1,7 @@
 <?php
-$host = 'ftp.donkeylab.com';
-$user = '4634301@aruba.it';
-$password = 'vrs38lg7r7';
+$host = '';
+$user = '';
+$password = '';
 
 function downloadFtp($name_file)
 {
@@ -14,7 +14,7 @@ function downloadFtp($name_file)
   } else {
 
       $local_file = 'files/'.$name_file.'.txt';
-      $server_file = 'www.donkeylab.com/'.$name_file.'.txt';
+      $server_file = $name_file.'.txt';
 
       if (ftp_get($connection, $local_file, $server_file, FTP_BINARY)) {
           return true;
