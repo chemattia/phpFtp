@@ -1,19 +1,21 @@
 <?php
-require 'connection/ftp.php';
-require 'html/error.php';
-require 'html/form.php';
+require __DIR__ . '/connection/ftp.php';
 
 $host = 'host';
 $user = 'user';
 $password = 'password';
 parse_str($_SERVER['QUERY_STRING']);
+
 if (!isset($id_gruppo)) {
-    printError();
-} else {
-    $id_gruppo = (htmlspecialchars($id_gruppo, ENT_QUOTES));
-    $ftp = new Ftp($host, $user, $password);
-    if ($ftp->downloadFtp($id_gruppo) == true) {
-        printForm($id_gruppo);
-     }
+    require_once __DIR__ . '/html/error_no_group.php';
+    exit;
 }
-?>
+
+$id_gruppo = (htmlspecialchars($id_gruppo, ENT_QUOTES));
+$ftp = new Ftp($host, $user, $password);
+if (!$ftp->downloadFtp($id_gruppo) == true) {
+    require_once __DIR__ . '/html/error_no_file.php';
+    exit;
+}
+
+require_once __DIR__ . '/html/form.php';
