@@ -1,20 +1,19 @@
 <?php
 require 'connection/ftp.php';
+require 'html/error.php';
+require 'html/form.php';
+
 $host = 'host';
 $user = 'user';
 $password = 'password';
 parse_str($_SERVER['QUERY_STRING']);
-if (isset($id_gruppo)) {
+if (!isset($id_gruppo)) {
+    printError();
+} else {
     $id_gruppo = (htmlspecialchars($id_gruppo, ENT_QUOTES));
     $ftp = new Ftp($host, $user, $password);
-    //$ftp->setConnection('', '', '');
     if ($ftp->downloadFtp($id_gruppo) == true) {
-        echo 'id gruppo = ' . $id_gruppo . '<br>';
-        ?>
-        <form>
-            <input type="submit" value="Submit">
-        </form>
-        <?php
-    }
+        printForm($id_gruppo);
+     }
 }
 ?>
