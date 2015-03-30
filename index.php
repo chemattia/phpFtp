@@ -1,9 +1,9 @@
 <?php
 require __DIR__ . '/connection/ftp.php';
 
-$host = 'host';
-$user = 'user';
-$password = 'password';
+$host = '';
+$user = '';
+$password = '';
 parse_str($_SERVER['QUERY_STRING']);
 
 if (!isset($id_gruppo)) {
