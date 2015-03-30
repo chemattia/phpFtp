@@ -1,20 +1,30 @@
 <?php
-require __DIR__ . '/connection/ftp.php';
 
-$host = '';
-$user = '';
-$password = '';
-parse_str($_SERVER['QUERY_STRING']);
+// Check configuration
+if (!file_exists(__DIR__ . '/config.php'))
+{
+    $error = "File di configurazione mancante (vedi config.sample.php)";
+    require_once __DIR__ . '/html/error.php';
+    exit;
+}
+require_once __DIR__ . '/config.php';
 
-if (!isset($id_gruppo)) {
-    require_once __DIR__ . '/html/error_no_group.php';
+// Check request
+$id_gruppo = filter_input(INPUT_GET, 'id_gruppo', FILTER_VALIDATE_FLOAT);
+if (empty($id_gruppo))
+{
+    $error = 'ID gruppo non definito o non valido';
+    require_once __DIR__ . '/html/error.php';
     exit;
 }
 
-$id_gruppo = (htmlspecialchars($id_gruppo, ENT_QUOTES));
+// Get file
+require_once __DIR__ . '/connection/ftp.php';
 $ftp = new Ftp($host, $user, $password);
-if (!$ftp->downloadFtp($id_gruppo) == true) {
-    require_once __DIR__ . '/html/error_no_file.php';
+if (!$ftp->downloadFtp($id_gruppo))
+{
+    $error = 'Impossibile scaricare il file';
+    require_once __DIR__ . '/html/error.php';
     exit;
 }
 
