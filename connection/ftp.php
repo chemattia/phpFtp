@@ -24,16 +24,7 @@ class Ftp
         $local_file = 'files/' . $name_file . '.txt';
         $server_file = $name_file . '.txt';
 
-        // Semplifichiamo
         return ftp_get($connection, $local_file, $server_file, FTP_BINARY);
-        //if (ftp_get($connection, $local_file, $server_file, FTP_BINARY)) {
-        //    return true;
-        //} else {
-        //    return false;
-        //}
-
-        // Qui non ci arriviamo mai, visto che fai "return" prima
-        //ftp_close($connection);
     }
 
 }
