@@ -16,8 +16,15 @@ class Ftp
     public function downloadFtp($name_file)
     {
         $connection = ftp_connect($this->host);
+        if (!$connection)
+        {
+            echo "Impossibile connettersi all'host<br>";
+            return false;
+        }
+
         $login = ftp_login($connection, $this->user, $this->password);
-        if (!$connection || !$login) {
+        if (!$login) {
+            echo "Errore di autenticazione FTP";
             return false;
         }
 
