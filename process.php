@@ -9,7 +9,7 @@ if (!isset($_POST["id_gruppo"]))
   exit;
 }
 */
-$nome_file = '1234';//htmlspecialchars($_POST["id_gruppo"]);
+$nome_file = htmlspecialchars($_POST["id_gruppo"]);
 
 // Check file
 if (!file_exists(__DIR__ . '/files/' . $nome_file . '.txt'))
