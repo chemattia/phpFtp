@@ -17,7 +17,7 @@ if (empty($id_gruppo)) {
 }
 
 // Get file
-require_once __DIR__ . '/connection/ftp.php';
+require_once __DIR__ . '/classes/ftp.php';
 $ftp = new Ftp($host, $user, $password);
 if (!$ftp->downloadFtp($id_gruppo)) {
     $error = 'Impossibile scaricare il file';
