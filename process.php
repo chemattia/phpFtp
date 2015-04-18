@@ -11,7 +11,7 @@ if (empty($id_gruppo)) {
     exit;
 }
 
-$nome_file = htmlspecialchars($_POST["id_gruppo"]);
+$nome_file = htmlspecialchars($id_gruppo);
 
 // Check file
 if (!file_exists(__DIR__ . '/files/' . $nome_file . '.txt')) {
@@ -24,4 +24,5 @@ require_once __DIR__ . '/classes/csvconverter.php';
 $csvconverter = new CsvConverter($nome_file);
 $csvconverter->convert();
 
+$emssage = "File elaborato correttamente";
 require_once __DIR__ . '/html/success.php';
