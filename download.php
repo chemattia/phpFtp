@@ -1,5 +1,8 @@
 <?php
 
+ini_set('display_errors', Off);
+ini_set('error_reporting', E_NONE);
+
 $format = filter_input(INPUT_GET, 'format', FILTER_SANITIZE_STRING) ?: "html";
 if (!in_array($format, array("html", "json")))
 {
@@ -13,6 +16,13 @@ if (!file_exists(__DIR__ . '/config.php')) {
     exit;
 }
 require_once __DIR__ . '/config.php';
+
+// Dummy response
+if ($config['dummy_download']) {
+    $message = 'File scaricato correttamente';
+    require_once __DIR__ . "/templates/success.$format.php";
+    exit;
+}
 
 // Check request
 $id_gruppo = filter_input(INPUT_GET, 'id_gruppo', FILTER_VALIDATE_FLOAT);
