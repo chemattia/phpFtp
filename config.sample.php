@@ -24,12 +24,15 @@ $config = array(
     // FTP server where the source TXT file are downloaded from
     'ftp_host' => '91.187.200.88',
 
+    // FTP path where the source TXT file are downloaded from
+    'ftp_host' => '/newsletter/',
+
     // FTP user
     'ftp_user' => 'tmpphpftp',
 
     // FTP password
     'ftp_password' => 'e2t6r6t9p3m7m7t',
-    
+
     'mailup_user' => "a9362",
     'mailup_password' => "gardainf2012",
     'mailup_url' => "http://news.anmvi.it",

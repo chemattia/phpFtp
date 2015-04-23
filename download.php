@@ -34,7 +34,7 @@ if (empty($id_gruppo)) {
 
 // Get file
 require_once __DIR__ . '/classes/ftp.php';
-$ftp = new Ftp($config['ftp_host'], $config['ftp_user'], $config['ftp_password']);
+$ftp = new Ftp($config['ftp_host'], $config['ftp_path'], $config['ftp_user'], $config['ftp_password']);
 if (!$ftp->downloadFtp($id_gruppo)) {
     $error = 'Impossibile scaricare il file';
     require_once __DIR__ . "/templates/error.$format.php";
