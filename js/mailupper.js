@@ -1,5 +1,5 @@
 /**
- * @version     js/mailupper.js 2015-04-21 19:59:00 UTC zanardi
+ * @version     js/mailupper.js 2015-04-23 07:47:00 UTC zanardi
  * @author      GiBiLogic <info@gibilogic.com>
  * @copyright   Copyright 2015 S-D Consulting http://www.iboxmail.it/
  */
@@ -19,20 +19,21 @@ muCheckStatus = function ($)
 muDownload = function($)
 {
     $('#download').removeClass('hidden');
-    downloadUrl = "/download.php?format=json&id_gruppo= " + getIdGruppo();
+    var downloadUrl = "download.php?format=json&id_gruppo=" + getIdGruppo();
     jQuery.ajax({
         "url": downloadUrl,
         "type": "GET"
     }).success(function (result) {
-        if (result.error)
+        var response = JSON.parse(result);
+        if (response.error)
         {
-            console.log(result);
-            $('#download span.result').html("Errore!");
+            console.log(response);
+            $('#download span.result').html("Errore! " + response.title);
             return;
         }
         $('#download span.result').html("OK");
         muProcess($);
-    }).error(function (result) {
+    }).error(function () {
         console.log("Ajax error");
         $('#download span.result').html("Errore!");
     });
@@ -41,47 +42,47 @@ muDownload = function($)
 muProcess = function($)
 {
     $('#process').removeClass('hidden');
-    processUrl = "/process.php?format=json&id_gruppo= " + getIdGruppo();
+    processUrl = "process.php?format=json&id_gruppo=" + getIdGruppo();
     jQuery.ajax({
         "url": processUrl,
         "type": "GET"
     }).success(function (result) {
-        if (result.error)
+        var response = JSON.parse(result);
+        if (response.error)
         {
-            console.log(result);
-            $('#process span.result').html("Errore!");
+            console.log(response);
+            $('#process span.result').html("Errore! " + response.title);
             return;
         }
         $('#process span.result').html("OK");
         muImport($);
-    }).error(function (result) {
+    }).error(function () {
         console.log("Ajax error");
         $('#process span.result').html("Errore!");
     });
-    muImport($);
 };
 
 muImport = function($)
 {
     $('#import').removeClass('hidden');
-    importUrl = "/import.php?format=json&id_gruppo= " + getIdGruppo();
+    importUrl = "import.php?format=json&id_gruppo=" + getIdGruppo();
     jQuery.ajax({
         "url": importUrl,
         "type": "GET"
     }).success(function (result) {
-        if (result.error)
+        var response = JSON.parse(result);
+        if (response.error)
         {
-            console.log(result);
-            $('#import span.result').html("Errore!");
+            console.log(response);
+            $('#import span.result').html("Errore! " + response.title);
             return;
         }
         $('#import span.result').html("OK");
         muFinish($);
-    }).error(function (result) {
+    }).error(function () {
         console.log("Ajax error");
         $('#import span.result').html("Errore!");
     });
-
 };
 
 muFinish = function($)
