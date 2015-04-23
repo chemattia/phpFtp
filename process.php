@@ -1,28 +1,41 @@
 <?php
 
-// Check QUERY_STRING -- inutile in quanto se non fosse definito non ci sarebbe form
-// [Franz] Meglio lasciare comunque un controllo. Questo file non sa cosa succede altrove,
-// e può essere chiamato direttamente. Se non facciamo questo controllo, la riga 15 sotto dà errore
+ini_set("display_errors", On);
+ini_set("error_reporting", E_ALL);
+
+
+$format = filter_input(INPUT_GET, 'format', FILTER_SANITIZE_STRING) ?: "html";
+if (!in_array($format, array("html", "json")))
+{
+    $format = "html";
+}
+
+// Check configuration
+if (!file_exists(__DIR__ . '/config.php')) {
+    $error = "File di configurazione mancante (vedi config.php)";
+    require_once __DIR__ . "/templates/error.$format.php";
+    exit;
+}
+require_once __DIR__ . '/config.php';
+
 // Check request
-$id_gruppo = filter_input(INPUT_POST, 'id_gruppo', FILTER_VALIDATE_FLOAT);
+$id_gruppo = filter_input(INPUT_GET, 'id_gruppo', FILTER_VALIDATE_FLOAT);
 if (empty($id_gruppo)) {
     $error = 'ID gruppo non definito o non valido';
-    require_once __DIR__ . '/html/error.php';
+    require_once __DIR__ . "/templates/error.$format.php";
     exit;
 }
 
-$nome_file = htmlspecialchars($id_gruppo);
-
 // Check file
-if (!file_exists(__DIR__ . '/files/' . $nome_file . '.txt')) {
+if (!file_exists(__DIR__ . '/files/' . $id_gruppo . '.txt')) {
     $error = "File dati mancante";
-    require_once __DIR__ . '/html/error.php';
+    require_once __DIR__ . "/templates/error.$format.php";
     exit;
 }
 
 require_once __DIR__ . '/classes/csvconverter.php';
-$csvconverter = new CsvConverter($nome_file);
+$csvconverter = new CsvConverter($id_gruppo);
 $csvconverter->convert();
 
-$emssage = "File elaborato correttamente";
-require_once __DIR__ . '/html/success.php';
+$message = "File elaborato correttamente";
+require_once __DIR__ . "/templates/success.$format.php";

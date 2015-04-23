@@ -13,35 +13,75 @@ jQuery("document").ready(function () {
 muCheckStatus = function ($)
 {
     $('#welcome span.result').html('OK');
-    alert("Continuo");
     muDownload($);
 };
 
 muDownload = function($)
 {
     $('#download').removeClass('hidden');
-    alert("Continuo");
-    $('#download span.result').html('OK');
-    alert("Continuo");
-    muProcess($);
+    downloadUrl = "/download.php?format=json&id_gruppo= " + getIdGruppo();
+    jQuery.ajax({
+        "url": downloadUrl,
+        "type": "GET"
+    }).success(function (result) {
+        if (result.error)
+        {
+            console.log(result);
+            $('#download span.result').html("Errore!");
+            return;
+        }
+        $('#download span.result').html("OK");
+        muProcess($);
+    }).error(function (result) {
+        console.log("Ajax error");
+        $('#download span.result').html("Errore!");
+    });
 };
 
 muProcess = function($)
 {
     $('#process').removeClass('hidden');
-    alert("Continuo");
-    $('#process span.result').html('OK');
-    alert("Continuo");
+    processUrl = "/process.php?format=json&id_gruppo= " + getIdGruppo();
+    jQuery.ajax({
+        "url": processUrl,
+        "type": "GET"
+    }).success(function (result) {
+        if (result.error)
+        {
+            console.log(result);
+            $('#process span.result').html("Errore!");
+            return;
+        }
+        $('#process span.result').html("OK");
+        muImport($);
+    }).error(function (result) {
+        console.log("Ajax error");
+        $('#process span.result').html("Errore!");
+    });
     muImport($);
 };
 
 muImport = function($)
 {
     $('#import').removeClass('hidden');
-    alert("Continuo");
-    $('#import span.result').html('OK');
-    alert("Continuo");
-    muFinish($);
+    importUrl = "/import.php?format=json&id_gruppo= " + getIdGruppo();
+    jQuery.ajax({
+        "url": importUrl,
+        "type": "GET"
+    }).success(function (result) {
+        if (result.error)
+        {
+            console.log(result);
+            $('#import span.result').html("Errore!");
+            return;
+        }
+        $('#import span.result').html("OK");
+        muFinish($);
+    }).error(function (result) {
+        console.log("Ajax error");
+        $('#import span.result').html("Errore!");
+    });
+
 };
 
 muFinish = function($)
