@@ -3,12 +3,14 @@
 class Ftp
 {
     private $host;
+    private $path;
     private $user;
     private $password;
 
-    public function __construct($host, $user, $password)
+    public function __construct($host, $path, $user, $password)
     {
         $this->host = $host;
+        $this->path = $path;
         $this->user = $user;
         $this->password = $password;
     }
@@ -28,8 +30,8 @@ class Ftp
             return false;
         }
 
-        $local_file = 'files/' . $name_file . '.txt';
-        $server_file = $name_file . '.txt';
+        $local_file = __DIR__ . '/../files/' . $name_file . '.txt';
+        $server_file = $this->path . $name_file . '.txt';
 
         return ftp_get($connection, $local_file, $server_file, FTP_BINARY);
     }

@@ -18,7 +18,7 @@ if (!file_exists(__DIR__ . '/config.php')) {
 require_once __DIR__ . '/config.php';
 
 // Dummy response
-if ($config['dummy_process']) {
+if ($config['dummy_download']) {
     $message = 'File scaricato correttamente';
     require_once __DIR__ . "/templates/success.$format.php";
     exit;
@@ -32,16 +32,14 @@ if (empty($id_gruppo)) {
     exit;
 }
 
-// Check file
-if (!file_exists(__DIR__ . '/files/' . $id_gruppo . '.txt')) {
-    $error = "File dati mancante";
+// Get file
+require_once __DIR__ . '/classes/ftp.php';
+$ftp = new Ftp($config['ftp_host'], $config['ftp_path'], $config['ftp_user'], $config['ftp_password']);
+if (!$ftp->downloadFtp($id_gruppo)) {
+    $error = 'Impossibile scaricare il file';
     require_once __DIR__ . "/templates/error.$format.php";
     exit;
 }
 
-require_once __DIR__ . '/classes/csvconverter.php';
-$csvconverter = new CsvConverter($id_gruppo);
-$csvconverter->convert();
-
-$message = "File elaborato correttamente";
+$message = 'File scaricato correttamente';
 require_once __DIR__ . "/templates/success.$format.php";

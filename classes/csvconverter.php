@@ -34,4 +34,20 @@ class CsvConverter
         );
     }
 
+    public function getUsers()
+    {
+        $csv_file_handler = fopen($this->csv_file, "r");
+        $users = array();
+        while ($data = fgetcsv($csv_file_handler))
+        {
+            $user = new stdClass();
+            $user->email = $data[0];
+            $user->lastname = $data[1];
+            $user->firstname = $data[2];
+            $users[] = $user;
+        }
+
+        return $users;
+    }
+
 }
